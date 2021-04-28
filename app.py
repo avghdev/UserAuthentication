@@ -1,5 +1,7 @@
 from flask import Flask, render_template, request, redirect, session
 from flask_sqlalchemy import SQLAlchemy
+import gunicorn
+
 app = Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///users.db"
 app.secret_key = "Secret Key"
@@ -73,11 +75,5 @@ def signup():
 
 
 if __name__ == '__main__':
-    import os
-    HOST = os.environ.get('SERVER_HOST', 'localhost')
-    try:
-        PORT = int(os.environ.get('SERVER_PORT', '5555'))
-    except ValueError:
-        PORT = 5555
     db.create_all()
-    app.run(HOST, PORT)
+    app.run()
